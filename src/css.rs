@@ -2,14 +2,14 @@ use std::default::Default;
 use std::fmt;
 
 #[derive(PartialEq)]
-pub struct StyleSheet {
+pub struct Stylesheet {
     pub rules: Vec<Rule>,
 }
 
 #[derive(PartialEq)]
 pub struct Rule {
     pub selectors: Vec<Selector>,
-    pub declarations: Vec<Declarations>,
+    pub declarations: Vec<Declaration>,
 }
 
 #[derive(PartialEq, Eq)]
@@ -22,7 +22,7 @@ pub struct Selector {
 pub struct SimpleSelector {
     pub tag_name: Option<String>,
     pub id: Option<String>,
-    pub class: Vec<String>,
+    pub classes: Vec<String>,
 }
 
 #[derive(PartialEq)]
@@ -59,13 +59,6 @@ pub enum Unit {
 }
 
 #[derive(PartialEq, Clone)]
-pub struct Color {
-    pub r: f32,
-    pub g: f32,
-    pub b: f32,
-    pub a: f32,
-}
-
 pub struct Color {
     pub r: f32,
     pub g: f32,
@@ -145,7 +138,7 @@ impl Selector {
     }
 }
 
-impl Defaut for Selector {
+impl Default for Selector {
     fn default() -> Self {
         Selector {
             simple: Vec::new(),
@@ -214,13 +207,34 @@ impl fmt::Debug for SimpleSelector {
     }
 }
 
-impl fmt::Default for Value {
+impl fmt::Debug for Value {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match *self {
             Value::Color(ref color) => write!(f, "{:?}", color),
-            Value::Length(ref length, ref unit) => write!(f, "{:?} {}", length, unit),
+            Value::Length(ref length, ref unit) => write!(f, "{:?}", length),
             Value::Other(ref other) => write!(f, "{:?}", other),
         }
+    }
+}
+
+impl Declaration {
+    pub fn new(property: String, value: Value) -> Declaration {
+        Declaration { property, value }
+    }
+}
+
+impl Default for Declaration {
+    fn default() -> Self {
+        Declaration {
+            property: String::from(""),
+            value: Value::Other(String::from("")),
+        }
+    }
+}
+
+impl fmt::Debug for Declaration {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "{}: {:?}", self.property, self.value)
     }
 }
 

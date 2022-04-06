@@ -1,15 +1,15 @@
-use dom::{AttrMap, ElementData, Node, NodeType};
+use crate::dom::{AttrMap, ElementData, Node, NodeType};
 
 use std::iter::Peekable;
 use std::str::Chars;
 
 pub struct HtmlParser<'a> {
     chars: Peekable<Chars<'a>>,
-    node_q: Vev<String>,
+    node_q: Vec<String>,
 }
 
 impl<'a> HtmlParser<'a> {
-    pub fn new(full_html: &str) -> HtmlParserv {
+    pub fn new(full_html: &str) -> HtmlParser {
         HtmlParser {
             chars: full_html.chars().peekable(),
             node_q: Vec::new(),
@@ -234,35 +234,34 @@ impl<'a> HtmlParser<'a> {
 
         result
     }
+}
+fn is_valid_tag_name(ch: char) -> bool {
+    ch.is_digit(36)
+}
 
-    fn is_valid_tag_name(ch: char) -> bool {
-        ch.is_digit(36)
+fn is_valid_attr_name(c: char) -> bool {
+    is_excluded_name(c) && is_control(c)
+}
+
+fn is_control(ch: char) -> bool {
+    match ch {
+        '\u{007F}' => true,
+        c if c >= '\u{0000}' && c <= '\u{001F}' => true,
+        c if c >= '\u{0080}' && c <= '\u{009F}' => true,
+        _ => false,
     }
+}
 
-    fn is_valid_attr_name(c: char) -> bool {
-        !is_excluded_name(c) && !is_control(c)
+fn is_excluded_name(c: char) -> bool {
+    match c {
+        ' ' | '"' | '\'' | '>' | '/' | '=' => true,
+        _ => false,
     }
+}
 
-    fn is_control(ch: char) -> bool {
-        match ch {
-            '\u{007F}' => true,
-            c if c >= '\u{0000}' && c <= '\u{001F}' => true,
-            c if c >= '\u{0080}' && c <= '\u{009F}' => true,
-            _ => false,
-        }
-    }
-
-    fn is_excluded_name(c: char) -> bool {
-        match c {
-            ' ' | '"' | '\'' | '>' | '/' | '=' => true,
-            _ => false,
-        }
-    }
-
-    fn is_valid_attr_value(c: char) -> bool {
-        match c {
-            ' ' | '"' | '\'' | '=' | '<' | '>' | '`' => false,
-            _ => true,
-        }
+fn is_valid_attr_value(c: char) -> bool {
+    match c {
+        ' ' | '"' | '\'' | '=' | '<' | '>' | '`' => false,
+        _ => true,
     }
 }
