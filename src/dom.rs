@@ -3,8 +3,8 @@ use std::fmt;
 
 #[derive(PartialEq, Eq)]
 pub struct Node {
-    children: Vec<Node>,
-    node_type: NodeType,
+    pub children: Vec<Node>,
+    pub node_type: NodeType,
 }
 
 #[derive(PartialEq, Eq, Clone)]
@@ -16,7 +16,7 @@ pub enum NodeType {
 
 #[derive(PartialEq, Eq, Clone)]
 pub struct ElementData {
-    tag_name: String,
+    pub tag_name: String,
     attributes: AttrMap,
 }
 
@@ -28,11 +28,11 @@ impl ElementData {
         }
     }
 
-    fn get_id(&self) -> Option<&String> {
+    pub fn get_id(&self) -> Option<&String> {
         self.attributes.get("id")
     }
 
-    fn get_classes(&self) -> HashSet<&str> {
+    pub fn get_classes(&self) -> HashSet<&str> {
         match self.attributes.get("class") {
             Some(s) => s.split(" ").collect(),
             None => HashSet::new(),
