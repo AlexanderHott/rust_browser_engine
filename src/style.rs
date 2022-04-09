@@ -92,7 +92,7 @@ impl<'a> fmt::Debug for StyledNode<'a> {
 }
 
 fn selector_matches(element: &ElementData, selector: &Selector) -> bool {
-    for simple in selector.simple {
+    for simple in &selector.simple {
         let mut selector_match = true;
 
         match simple.tag_name {

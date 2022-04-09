@@ -21,7 +21,7 @@ pub struct ElementData {
 }
 
 impl ElementData {
-    fn new(tag_name: String, attributes: AttrMap) -> ElementData {
+    pub fn new(tag_name: String, attributes: AttrMap) -> ElementData {
         ElementData {
             tag_name,
             attributes,
@@ -43,7 +43,7 @@ impl ElementData {
 pub type AttrMap = HashMap<String, String>;
 
 impl Node {
-    fn new(node_type: NodeType, children: Vec<Node>) -> Node {
+    pub fn new(node_type: NodeType, children: Vec<Node>) -> Node {
         Node {
             node_type,
             children,

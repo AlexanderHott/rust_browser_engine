@@ -211,7 +211,7 @@ impl fmt::Debug for Value {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match *self {
             Value::Color(ref color) => write!(f, "{:?}", color),
-            Value::Length(ref length, ref unit) => write!(f, "{:?}", length),
+            Value::Length(ref length, _) => write!(f, "{:?}", length),
             Value::Other(ref other) => write!(f, "{:?}", other),
         }
     }
