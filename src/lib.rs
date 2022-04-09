@@ -11,3 +11,4 @@ pub mod dom;
 pub mod html_parser;
 pub mod layout;
 pub mod style;
+pub mod renderer;
