@@ -14,3 +14,7 @@ glutin = "0.7.1"
 [[bin]]
 name = "main"
 path = "bin/main.rs"
+
+[target.x86_64-pc-windows-msvc.freetype]
+rustc-link-search = ["C:\\Users\\Alex\\Desktop\\GITHUB\\rust_browser_engine\\lib"]
+rustc-link-lib = ["freetype"]
